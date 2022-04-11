@@ -1,11 +1,10 @@
 const $ = {
     screen: document.querySelector('#screen'),
-    button: document.querySelectorAll('span:not(.operator)'),
+    buttons: document.querySelectorAll('span:not(.operator)'),
     operators: document.querySelectorAll('.operator'),
-    clear: document.querySelector('#clear'),
 }
 
-$.button.forEach((button) => {
+$.buttons.forEach((button) => {
     button.addEventListener("click", () => {
         $.screen.textContent += button.textContent
     })
@@ -15,7 +14,10 @@ $.operators.forEach(($operator) => {
     $operator.addEventListener('click', () => {
         switch ($operator.textContent) {
             case '=':
-                $.screen.textContent = eval($.screen.textContent)
+                const result = eval($.screen.textContent)
+                $.screen.textContent = result == Infinity ?
+                    'Error' :
+                    result
                 break;
             case '÷':
                 $.screen.textContent += '/'
@@ -23,12 +25,11 @@ $.operators.forEach(($operator) => {
             case 'x':
                 $.screen.textContent += "*"
                 break;
+            case 'C':
+                $.screen.textContent = ""
+                break;
             default:
                 $.screen.textContent += $operator.textContent
         }
     })
-})
-
-$.clear.addEventListener("click", () => {
-    $.screen.textContent = ""
 })
